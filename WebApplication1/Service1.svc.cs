@@ -125,11 +125,7 @@ namespace WebApplication1
                 conn.Open();
                 DataSet ds = new DataSet();
 
-                StringBuilder SQ = new StringBuilder("select top 1 TaxValue from TaxesConfig tc inner join Taxes t on tc.Id = t.TaxID ");
-                SQ.Append("inner join Municipality m on m.id = t.MunID ");
-                SQ.Append("where m.Municipality = '" + Municipality + "' and t.DateFrom <= '" + dtDate.ToString("yyyy-MM-dd") + "' and t.DateTo>='" + dtDate.ToString("yyyy-MM-dd") + "' order by TaxTypeNo desc");
-                               
-                SqlDataAdapter konektas = new SqlDataAdapter(SQ.ToString(), conn);
+                SqlDataAdapter konektas = new SqlDataAdapter("select top 1 TaxValue from TaxesConfig tc inner join Taxes t on tc.Id = t.TaxID inner join Municipality m on m.id = t.MunID where m.Municipality = '" + Municipality + "' and t.DateFrom = '" + dtDate + "' order by TaxTypeNo", conn);
                 konektas.Fill(ds);
                 konektas.Dispose();
                 if (ds.Tables[0].Rows.Count == 0) return "Tax not found";
