@@ -68,6 +68,24 @@ namespace WebApplication1
                 return "Date value invalid";
             }
 
+            switch (TaxType)
+            {
+                case "yearly":
+                    DateTo = DateFrom.AddYears(1);
+                    break;
+                case "monthly":
+                    DateTo = DateFrom.AddMonths(1);
+                    break;
+                case "weekly":
+                    DateTo = DateFrom.AddDays(7);
+                    break;
+                case "daily":
+                    DateTo = DateFrom.AddDays(1);
+                    break;
+                default:
+                    return "Tax Type parameter invalid";
+            }
+
           
             SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["Connectas"].ConnectionString);
             try
