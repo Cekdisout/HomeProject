@@ -140,7 +140,6 @@ namespace WebApplication1
                 return ex.Message;
             }
           
-
             //return taxRate.ToString("N2");
         }
     }
