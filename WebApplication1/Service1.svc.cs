@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using System.ServiceModel.Web;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace WebApplication1
 {
@@ -46,48 +47,35 @@ namespace WebApplication1
         {
             string MunID,TaxID;
           
+            SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["Connectas"].ConnectionString);
             try
             {
-                SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["Connectas"].ConnectionString);
                 conn.Open();
-                {
-                   
-                    using (SqlCommand cmd = new SqlCommand("Select ID from Municipality where [Municipality] = '"+ Municipality + "'", conn))
-                    {
-                                               
-                        cmd.ExecuteNonQuery();
-                        MunID = cmd.ExecuteScalar().ToString();
+                DataSet ds = new DataSet();
+                SqlDataAdapter konektas = new SqlDataAdapter("Select ID from Municipality where [Municipality] = '" + Municipality + "'", conn);
+                konektas.Fill(ds);                    
+                konektas.Dispose();
+                if (ds.Tables[0].Rows.Count == 0) return "Municipality not defined";
+                MunID = ds.Tables[0].Rows[0]["ID"].ToString();
 
-                    }
+                ds = new DataSet();
+                konektas = new SqlDataAdapter("Select ID from TaxesConfig where [TaxTypeString] = '" + TaxType + "'", conn);
+                konektas.Fill(ds);
+                konektas.Dispose();
+                if (ds.Tables[0].Rows.Count == 0) return "TaxesConfig not defined";
+                TaxID = ds.Tables[0].Rows[0]["ID"].ToString();
 
-                    using (SqlCommand cmd = new SqlCommand("Select ID from TaxesConfig where [TaxTypeString] = '" + TaxType + "'", conn))
-                    {
+                SqlCommand cmd = new SqlCommand("INSERT INTO [Taxes] values (" + MunID + "," + TaxID + ",'" + Date + "','2018-01-14')", conn);
+                cmd.ExecuteNonQuery();
 
-                        cmd.ExecuteNonQuery();
-                        TaxID = cmd.ExecuteScalar().ToString();
+                conn.Close();
 
-                    }
-
-                    //INSERTAS EINA CIA
-
-                    using (SqlCommand cmd = new SqlCommand("INSERT INTO [Taxes] values ("+ MunID +"," + TaxID + ",'" + Date + "','2018-01-14')", conn))
-                    {
-
-                        cmd.ExecuteNonQuery();
-                       
-                    }
-
-                }
+                return "OK";
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
-                return ex.ToString();
-                //Log exception
-                //Display Error message
+                return ex.Message;
             }
-            return "OK";
         }
-
-
     }
 }
