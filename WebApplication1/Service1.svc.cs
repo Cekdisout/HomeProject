@@ -20,14 +20,10 @@ namespace WebApplication1
             return "Hello";
         }
 
-        public string LogEvent(string StoreNo, string PosNo, string IP, string ErrType)
+        public string AddMunicipality()
         {
-            int store, pos;
-
             string body = "";
-
-            if (!(int.TryParse(StoreNo, out store) && (int.TryParse(PosNo, out pos))))
-                return "Err param";
+            string[] MunicipalityArray;
 
             if (OperationContext.Current.RequestContext.RequestMessage.IsEmpty)
                 return "Err body";
@@ -35,12 +31,31 @@ namespace WebApplication1
 
             if (body.Length < 4)
                 return "Err body";
-            string[] MunicipalityArray;
 
-            MunicipalityArray = body.Split('\n');
-            return MunicipalityArray.Count().ToString();
-    
+            MunicipalityArray = body.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
+            try
+            {
+                SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["Connectas"].ConnectionString);
+                conn.Open();
+
+                for (int i = 0; i < MunicipalityArray.Count(); i++)
+                {
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO [Municipality] values ('" + MunicipalityArray[i] + "')", conn))
+                    {
+
+                        if (cmd.ExecuteNonQuery() < 0)
+                            return "Insert failed!";
+                    }
+                }
+
+            }
+            catch (SqlException ex)
+            {
+                return ex.ToString();
+            }
+
+            return MunicipalityArray.Count().ToString() + " records inserted";
         }
 
         public string AddSchedule(string Municipality, string TaxType, string Date)
