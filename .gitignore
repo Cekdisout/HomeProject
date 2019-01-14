@@ -1,0 +1,10 @@
+WebApplication1/bin
+WebApplication1/obj
+WebApplication1/App_Data
+WebApplication1/WebApplication1.Publish.xml
+*.suo
+Thumbs.db
+.vs
+WebApplication1/Web.config
+packages
+
