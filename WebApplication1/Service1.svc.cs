@@ -90,7 +90,7 @@ namespace WebApplication1
                 if (ds.Tables[0].Rows.Count == 0) return "TaxesConfig not defined";
                 TaxID = ds.Tables[0].Rows[0]["ID"].ToString();
 
-                SqlCommand cmd = new SqlCommand("INSERT INTO [Taxes] values (" + MunID + "," + TaxID + ",'" + Date + "','2018-01-14')", conn);
+                SqlCommand cmd = new SqlCommand("INSERT INTO [Taxes] values (" + MunID + "," + TaxID + ",'" + DateFrom.ToString("yyyy-MM-dd") + "','" + DateTo.ToString("yyyy-MM-dd") + "')", conn);
                 cmd.ExecuteNonQuery();
 
                 conn.Close();
