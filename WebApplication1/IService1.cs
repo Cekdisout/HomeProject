@@ -9,8 +9,8 @@ namespace WebApplication1
     public interface IService1
     {
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "log/{StoreNo}/{PosNo}/{IP}/{ErrType}")]
-        string LogEvent(string StoreNo, string PosNo, string IP, string ErrType);
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "AddMunicipality")]
+        string AddMunicipality();
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "AddSchedule/{Municipality}/{TaxType}/{Date}")]
