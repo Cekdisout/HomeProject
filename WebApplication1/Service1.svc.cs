@@ -14,12 +14,6 @@ namespace WebApplication1
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class Service1 : IService1
     {
-
-        public string GetMessage(string StoreNo, string PosNo)
-        {
-            return "Hello";
-        }
-
         public string AddMunicipality()
         {
             string body = "";
@@ -43,7 +37,6 @@ namespace WebApplication1
                 {
                     using (SqlCommand cmd = new SqlCommand("INSERT INTO [Municipality] values ('" + MunicipalityArray[i] + "')", conn))
                     {
-
                         if (cmd.ExecuteNonQuery() < 0)
                             return "Insert failed!";
                     }
@@ -57,7 +50,6 @@ namespace WebApplication1
 
             return MunicipalityArray.Count().ToString() + " records inserted";
         }
-
         public string AddSchedule(string Municipality, string TaxType, string Date)
         {
             string MunID,TaxID;
@@ -116,6 +108,21 @@ namespace WebApplication1
             {
                 return ex.Message;
             }
+        }
+
+        public string GetTax(string Municipality, string Date)
+        {
+            DateTime dtDate;
+            double taxRate = 0.0;
+
+            if (!DateTime.TryParse(Date, out dtDate))
+            {
+                return "Date value invalid";
+            }
+
+
+
+            return taxRate.ToString("N2");
         }
     }
 }
