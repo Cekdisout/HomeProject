@@ -59,7 +59,7 @@ namespace WebApplication1
                 return "Date value invalid";
             }
 
-            switch (TaxType.ToUpper())
+            switch (TaxType.ToLower())
             {
                 case "yearly":
                     DateTo = DateFrom.AddYears(1);
@@ -119,7 +119,23 @@ namespace WebApplication1
                 return "Date value invalid";
             }
 
+            SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["Connectas"].ConnectionString);
+            try
+            {
+                conn.Open();
+                DataSet ds = new DataSet();
 
+                SqlDataAdapter konektas = new SqlDataAdapter("select top 1 TaxValue from TaxesConfig tc inner join Taxes t on tc.Id = t.TaxID inner join Municipality m on m.id = t.MunID where m.Municipality = '" + Municipality + "' and t.DateFrom = '" + dtDate + "' order by TaxTypeNo", conn);
+                konektas.Fill(ds);
+                konektas.Dispose();
+                if (ds.Tables[0].Rows.Count == 0) return "Municipality not defined";
+                Double.TryParse(ds.Tables[0].Rows[0]["TaxValue"].ToString(),out taxRate);
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+          
 
             return taxRate.ToString("N2");
         }
