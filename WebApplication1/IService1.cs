@@ -13,7 +13,7 @@ namespace WebApplication1
         string AddMunicipality();
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "AddSchedule/{Municipality}/{TaxType}/{Date}")]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "AddSchedule/{Municipality}/{TaxType}/{Date}")]
         string AddSchedule(string Municipality, string TaxType,string Date);
 
         //[OperationContract]
@@ -28,8 +28,7 @@ namespace WebApplication1
         //[WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "ErecipeWarning/{StoreNo}/{PosNo}/{IP}/{Count0}/{Count1}")]
         //string LogErecipeStatus(string StoreNo, string PosNo, string IP, string Count0, string Count1);
 
-        [OperationContract]
-        
+        [OperationContract]        
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "msg/{StoreNo}/{PosNo}")]
         string GetMessage(string StoreNo, string PosNo);
 
