@@ -46,6 +46,13 @@ namespace WebApplication1
         public string AddSchedule(string Municipality, string TaxType, string Date)
         {
             string MunID,TaxID;
+            DateTime DateFrom, DateTo;
+
+            if (!DateTime.TryParse(Date, out DateFrom))
+            {
+                return "Date value invalid";
+            }
+
           
             SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["Connectas"].ConnectionString);
             try
