@@ -13,13 +13,11 @@ namespace WebApplication1
         string AddMunicipality();
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "AddSchedule/{Municipality}/{TaxType}/{Date}")]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "AddSchedule/{Municipality}/{TaxType}/{Date}")]
         string AddSchedule(string Municipality, string TaxType,string Date);
 
-
         [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "msg/{StoreNo}/{PosNo}")]
-        string GetMessage(string StoreNo, string PosNo);
-
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "GetTax/{Municipality}/{Date}")]
+        string GetTax(string Municipality, string Date);                
     }
 }
